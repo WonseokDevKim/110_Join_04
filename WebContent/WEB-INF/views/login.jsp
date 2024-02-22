@@ -37,7 +37,9 @@
   <div class="form">
     <h2>Create an account</h2>
     <form>
-      <input type="text" name="memberId" placeholder="ID" required/>
+	  <input type="text" name="memberId" id="memberId" placeholder="ID" required/>
+	  <label id="idCheckMsg" style="display:block; margin-top: -18px; margin-bottom: 0;"></label>
+	  <div style="height:20px"></div>
       <input type="password" name="passwd" placeholder="Password" required/>
       <input type="text" name="memberName" placeholder="Name" required/>
       <input type="text" name="nickname" placeholder="Nickname" required/>
@@ -48,9 +50,45 @@
   <div class="cta"><a href="http://andytran.me">Forgot your password?</a></div>
 </div>
 <!-- partial -->
-  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<!--  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src='https://codepen.io/andytran/pen/vLmRVp.js'></script>
 <script  src="${pageContext.request.contextPath}/resources/js/script.js"></script>
-
+<!-- 아이디 자리수 및 중복 검사 -->
+<script>
+	$(document).ready(function(){
+		// ID 중복 확인 - ID의 input 태그 벗어나면 작동
+		$('#memberId').on("focusout", function() {
+			// 6자리 이하이면 x
+			var memberId = $("#memberId").val();
+			if(memberId.trim() == '' || memberId.length <= 6) {
+				$("#idCheckMsg").css("color", "red").text("ID는 7자리 이상이어야 합니다.");
+				return false;
+			}
+			console.log(memberId);
+			// Ajax로 전송
+			$.ajax({
+				url: './confirmId.do',
+				type: 'POST',
+				data: {
+					'memberId': memberId
+				},
+				dataType:'json',
+				success: function(result) { // 컨트롤러에서 넘어온 result를 받는다.
+					console.log("result : " + result);
+					if(result == "0") {
+						$("#idCheckMsg").css("color", "green").text("사용 가능한 ID입니다.");
+					} else {
+						$("#idCheckMsg").css("color", "red").text("ID 중복입니다.");
+						$("#memberId").val('');
+					}
+				},
+				error:function(){
+	                alert("에러입니다");
+	            }
+			}); // ajax end
+		});
+	})
+</script>
 </body>
 </html>
