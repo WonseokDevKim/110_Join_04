@@ -35,7 +35,7 @@
   </div>
   <div class="form">
     <h2>Login to your account</h2>
-    <form>
+    <form action="<c:url value='/login.do'/>" method="post">
       <input type="text" name="memberId" placeholder="ID" required/>
       <input type="password" name="passwd" placeholder="Password" required/>
       <button>Login</button>
