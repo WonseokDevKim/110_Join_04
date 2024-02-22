@@ -10,7 +10,14 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
-
+<script type="text/javascript">
+	window.onload = function(e) {
+		var resultMsg = "${resultMsg}"
+		if(resultMsg.length > 0) {
+			alert(resultMsg);
+		}
+	}
+</script>
 </head>
 <body>
 <!-- partial:index.partial.html -->
@@ -36,7 +43,7 @@
   </div>
   <div class="form">
     <h2>Create an account</h2>
-    <form>
+    <form action="<c:url value='/join.do'/>" method="post">
 	  <input type="text" name="memberId" id="memberId" placeholder="ID" required/>
 	  <label id="idCheckMsg" style="display:block; margin-top: -18px; margin-bottom: 0;"></label>
 	  <div style="height:20px"></div>
@@ -44,7 +51,7 @@
       <input type="text" name="memberName" placeholder="Name" required/>
       <input type="text" name="nickname" placeholder="Nickname" required/>
       <input type="email" name="email" placeholder="Email Address" required/>
-      <button>Register</button>
+      <button type="submit">Register</button>
     </form>
   </div>
   <div class="cta"><a href="http://andytran.me">Forgot your password?</a></div>
